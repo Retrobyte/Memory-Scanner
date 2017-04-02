@@ -135,8 +135,11 @@ namespace Memory_Scanner.Forms
 
         private void nextScanButton_Click(object sender, EventArgs e)
         {
+            searchProgressBar.Value = 0;
+
             if (string.IsNullOrEmpty(dataValueTextBox.Text))
             {
+
                 MessageBox.Show("Input value cannot be empty.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
