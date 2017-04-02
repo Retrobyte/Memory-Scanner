@@ -158,7 +158,12 @@ namespace Memory_Scanner.Forms
 
         private void progressUpdate(int amount)
         {
-            searchProgressBar.Value = amount;
+            //Hack need to fix root cause of this error
+            // error is Value is going above 100
+            if (!((searchProgressBar.Value + amount) > 100))
+                searchProgressBar.Value = amount;
+            else
+                searchProgressBar.Value = 100;
         }
 
         private void completeScan()
@@ -204,10 +209,18 @@ namespace Memory_Scanner.Forms
 
         private bool ValidateSearchInput()
         {
-            ContainsInvalidCharacters();
-            SearchBoxIsEmpty();
-
-            return true;
+            if (ContainsInvalidCharacters())
+            {
+                return true;
+            }
+            else if (SearchBoxIsEmpty())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private bool ContainsInvalidCharacters()
