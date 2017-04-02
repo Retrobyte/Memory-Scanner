@@ -42,178 +42,27 @@ namespace Memory_Scanner.Forms
 
         private void firstScanButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(dataValueTextBox.Text))
+            //Is Search Box Empty and doesn't contain invalid characters?
+            if (ValidateSearchInput())
             {
-                MessageBox.Show("Input value cannot be empty.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }
-
-            if (!Validator.isIntDouble(dataValueTextBox.Text))
-            {
-                MessageBox.Show("Input value contains invalid characters.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            byte[] scanValue;
-
-            switch (dataTypeComboBox.SelectedIndex)
-            {
-                case 0:
-                    try
-                    {
-                        scanValue = BitConverter.GetBytes(Convert.ToInt16(dataValueTextBox.Text));
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Input value is too large or too small to be an Int16.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    break;
-                case 1:
-                    try
-                    {
-                        scanValue = BitConverter.GetBytes(Convert.ToInt32(dataValueTextBox.Text));
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Input value is too large or too small to be an Int32.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    break;
-                case 2:
-                    try
-                    {
-                        scanValue = BitConverter.GetBytes(Convert.ToInt64(dataValueTextBox.Text));
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Input value is too large or too small to be an Int64.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    break;
-                case 3:
-                    try
-                    {
-                        scanValue = BitConverter.GetBytes(Convert.ToSingle(dataValueTextBox.Text));
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Input value is too large or too small to be a Float.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    break;
-                case 4:
-                    try
-                    {
-                        scanValue = BitConverter.GetBytes(Convert.ToDouble(dataValueTextBox.Text));
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Input value is too large or too small to be an Double.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    break;
-                default:
-                    MessageBox.Show("An unknown error occurred.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
             }
 
             nextScanButton.Enabled = true;
-            _ms.firstScan(scanValue, completeScan);
+            _ms.firstScan(GetSearchBoxInput(), completeScan);
         }
 
         private void nextScanButton_Click(object sender, EventArgs e)
         {
             searchProgressBar.Value = 0;
 
-            if (string.IsNullOrEmpty(dataValueTextBox.Text))
+            //Is Search Box Empty and doesn't contain invalid characters?
+            if (ValidateSearchInput())
             {
-
-                MessageBox.Show("Input value cannot be empty.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (!Validator.isIntDouble(dataValueTextBox.Text))
-            {
-                MessageBox.Show("Input value contains invalid characters.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            byte[] scanValue;
-
-            switch (dataTypeComboBox.SelectedIndex)
-            {
-                case 0:
-                    try
-                    {
-                        scanValue = BitConverter.GetBytes(Convert.ToInt16(dataValueTextBox.Text));
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Input value is too large or too small to be an Int16.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    break;
-                case 1:
-                    try
-                    {
-                        scanValue = BitConverter.GetBytes(Convert.ToInt32(dataValueTextBox.Text));
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Input value is too large or too small to be an Int32.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    break;
-                case 2:
-                    try
-                    {
-                        scanValue = BitConverter.GetBytes(Convert.ToInt64(dataValueTextBox.Text));
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Input value is too large or too small to be an Int64.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    break;
-                case 3:
-                    try
-                    {
-                        scanValue = BitConverter.GetBytes(Convert.ToSingle(dataValueTextBox.Text));
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Input value is too large or too small to be a Float.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    break;
-                case 4:
-                    try
-                    {
-                        scanValue = BitConverter.GetBytes(Convert.ToDouble(dataValueTextBox.Text));
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Input value is too large or too small to be an Double.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    break;
-                default:
-                    MessageBox.Show("An unknown error occurred.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-            }
-
-            _ms.nextScan(scanValue, completeScan);
+            _ms.nextScan(GetSearchBoxInput(), completeScan);
         }
 
         private void resultsMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -241,7 +90,6 @@ namespace Memory_Scanner.Forms
                                 MessageBox.Show("Input value is too large or too small to be an Int16.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
-
                             break;
                         case 1:
                             try
@@ -352,5 +200,128 @@ namespace Memory_Scanner.Forms
 
             return string.Empty;
         }
+
+
+        private bool ValidateSearchInput()
+        {
+            ContainsInvalidCharacters();
+            SearchBoxIsEmpty();
+
+            return true;
+        }
+
+        private bool ContainsInvalidCharacters()
+        {
+            if (!Validator.isIntDouble(dataValueTextBox.Text))
+            {
+                MessageBox.Show("Input value contains invalid characters.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private bool SearchBoxIsEmpty()
+        {
+            if (string.IsNullOrEmpty(dataValueTextBox.Text))
+            {
+                MessageBox.Show("Input value cannot be empty.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private byte[] GetInt16Bytes()
+        {
+            try
+            {
+                return BitConverter.GetBytes(Convert.ToInt16(dataValueTextBox.Text));
+            }
+            catch
+            {
+                MessageBox.Show("Input value is too large or too small to be an Int16.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new byte[0];
+            }
+        }
+
+        private byte[] GetInt32Bytes()
+        {
+            try
+            {
+                return BitConverter.GetBytes(Convert.ToInt32(dataValueTextBox.Text));
+            }
+            catch
+            {
+                MessageBox.Show("Input value is too large or too small to be an Int32.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new byte[0];
+            }
+        }
+        private byte[] GetInt64Bytes()
+        {
+            try
+            {
+                return BitConverter.GetBytes(Convert.ToInt64(dataValueTextBox.Text));
+            }
+            catch
+            {
+                MessageBox.Show("Input value is too large or too small to be an Int64.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new byte[0];
+            }
+        }
+        private byte[] GetFloatBytes()
+        {
+            try
+            {
+                return BitConverter.GetBytes(Convert.ToSingle(dataValueTextBox.Text));
+            }
+            catch
+            {
+                MessageBox.Show("Input value is too large or too small to be a Float.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new byte[0];
+            }
+        }
+        private byte[] GetDoubleBytes()
+        {
+            try
+            {
+                return BitConverter.GetBytes(Convert.ToInt32(dataValueTextBox.Text));
+            }
+            catch
+            {
+                MessageBox.Show("Input value is too large or too small to be a Double.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new byte[0];
+            }
+        }
+
+        private byte[] GetSearchBoxInput()
+        {
+            Byte[] scanValue;
+
+            switch (dataTypeComboBox.SelectedIndex)
+            {
+                case 0:
+                    scanValue = GetInt16Bytes();
+                    break;
+                case 1:
+                    scanValue = GetInt32Bytes();
+                    break;
+                case 2:
+                    scanValue = GetInt64Bytes();
+                    break;
+                case 3:
+                    scanValue = GetFloatBytes();
+                    break;
+                case 4:
+                    scanValue = GetDoubleBytes();
+                    break;
+                default:
+                    MessageBox.Show("An unknown error occurred.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return new Byte[0];
+            }
+
+            return scanValue;
+        }
+
     }
 }
