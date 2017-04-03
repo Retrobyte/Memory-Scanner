@@ -43,13 +43,13 @@ namespace Memory_Scanner.Forms
         private void firstScanButton_Click(object sender, EventArgs e)
         {
             //Is Search Box Empty and doesn't contain invalid characters?
-            if (ValidateSearchInput())
+            if (ValidateSearchInput(dataValueTextBox.Text))
             {
                 return;
             }
 
             nextScanButton.Enabled = true;
-            _ms.firstScan(GetSearchBoxInput(), completeScan);
+            _ms.firstScan(GetInputBytes(dataValueTextBox.Text), completeScan);
         }
 
         private void nextScanButton_Click(object sender, EventArgs e)
@@ -57,12 +57,12 @@ namespace Memory_Scanner.Forms
             searchProgressBar.Value = 0;
 
             //Is Search Box Empty and doesn't contain invalid characters?
-            if (ValidateSearchInput())
+            if (ValidateSearchInput(dataValueTextBox.Text))
             {
                 return;
             }
 
-            _ms.nextScan(GetSearchBoxInput(), completeScan);
+            _ms.nextScan(GetInputBytes(dataValueTextBox.Text), completeScan);
         }
 
         private void resultsMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -72,85 +72,19 @@ namespace Memory_Scanner.Forms
 
         private void editValueToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (EditDialog ed = new EditDialog())
+            using (EditDialog mEditDialog = new EditDialog())
             {
-                if (ed.ShowDialog() == DialogResult.OK)
+                if (mEditDialog.ShowDialog() == DialogResult.OK)
                 {
-                    byte[] setValue;
+                    byte[] setValue = GetInputBytes(mEditDialog.Value);
 
-                    switch (dataTypeComboBox.SelectedIndex)
+                    foreach (ListViewItem mListViewItem in resultsListView.SelectedItems)
                     {
-                        case 0:
-                            try
-                            {
-                                setValue = BitConverter.GetBytes(Convert.ToInt16(ed.Value));
-                            }
-                            catch
-                            {
-                                MessageBox.Show("Input value is too large or too small to be an Int16.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-                            break;
-                        case 1:
-                            try
-                            {
-                                setValue = BitConverter.GetBytes(Convert.ToInt32(ed.Value));
-                            }
-                            catch
-                            {
-                                MessageBox.Show("Input value is too large or too small to be an Int32.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
+                        SearchResult mSearchResult = ((SearchResult)mListViewItem.Tag);
 
-                            break;
-                        case 2:
-                            try
-                            {
-                                setValue = BitConverter.GetBytes(Convert.ToInt64(ed.Value));
-                            }
-                            catch
-                            {
-                                MessageBox.Show("Input value is too large or too small to be an Int64.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-
-                            break;
-                        case 3:
-                            try
-                            {
-                                setValue = BitConverter.GetBytes(Convert.ToSingle(ed.Value));
-                            }
-                            catch
-                            {
-                                MessageBox.Show("Input value is too large or too small to be a Float.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-
-                            break;
-                        case 4:
-                            try
-                            {
-                                setValue = BitConverter.GetBytes(Convert.ToDouble(ed.Value));
-                            }
-                            catch
-                            {
-                                MessageBox.Show("Input value is too large or too small to be an Double.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-
-                            break;
-                        default:
-                            MessageBox.Show("An unknown error occurred.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                    }
-
-                    foreach (ListViewItem l in resultsListView.SelectedItems)
-                    {
-                        SearchResult sr = ((SearchResult)l.Tag);
-
-                        sr.Buffer = setValue;
-                        _ms.writeMemory(sr.Address, setValue);
-                        l.SubItems[1].Text = convertBuffer(setValue, dataTypeComboBox.SelectedIndex);
+                        mSearchResult.Buffer = setValue;
+                        _ms.writeMemory(mSearchResult.Address, setValue);
+                        mListViewItem.SubItems[1].Text = convertBuffer(setValue, dataTypeComboBox.SelectedIndex);
                     }
                 }
             }
@@ -158,7 +92,7 @@ namespace Memory_Scanner.Forms
 
         private void progressUpdate(int amount)
         {
-            //Hack need to fix root cause of this error
+            //todo Hack need to fix root cause of this error
             // error is Value is going above 100
             if (!((searchProgressBar.Value + amount) > 100))
                 searchProgressBar.Value = amount;
@@ -207,13 +141,13 @@ namespace Memory_Scanner.Forms
         }
 
 
-        private bool ValidateSearchInput()
+        private bool ValidateSearchInput(string value)
         {
-            if (ContainsInvalidCharacters())
+            if (ContainsInvalidCharacters(value))
             {
                 return true;
             }
-            else if (SearchBoxIsEmpty())
+            else if (SearchBoxIsEmpty(value))
             {
                 return true;
             }
@@ -223,9 +157,9 @@ namespace Memory_Scanner.Forms
             }
         }
 
-        private bool ContainsInvalidCharacters()
+        private bool ContainsInvalidCharacters(string value)
         {
-            if (!Validator.isIntDouble(dataValueTextBox.Text))
+            if (!Validator.isIntDouble(value))
             {
                 MessageBox.Show("Input value contains invalid characters.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
@@ -234,9 +168,9 @@ namespace Memory_Scanner.Forms
                 return false;
         }
 
-        private bool SearchBoxIsEmpty()
+        private bool SearchBoxIsEmpty(string value)
         {
-            if (string.IsNullOrEmpty(dataValueTextBox.Text))
+            if (string.IsNullOrEmpty(value))
             {
                 MessageBox.Show("Input value cannot be empty.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
@@ -245,11 +179,11 @@ namespace Memory_Scanner.Forms
                 return false;
         }
 
-        private byte[] GetInt16Bytes()
+        private byte[] GetInt16Bytes(string value)
         {
             try
             {
-                return BitConverter.GetBytes(Convert.ToInt16(dataValueTextBox.Text));
+                return BitConverter.GetBytes(Convert.ToInt16(value));
             }
             catch
             {
@@ -258,11 +192,11 @@ namespace Memory_Scanner.Forms
             }
         }
 
-        private byte[] GetInt32Bytes()
+        private byte[] GetInt32Bytes(string value)
         {
             try
             {
-                return BitConverter.GetBytes(Convert.ToInt32(dataValueTextBox.Text));
+                return BitConverter.GetBytes(Convert.ToInt32(value));
             }
             catch
             {
@@ -270,11 +204,11 @@ namespace Memory_Scanner.Forms
                 return new byte[0];
             }
         }
-        private byte[] GetInt64Bytes()
+        private byte[] GetInt64Bytes(string value)
         {
             try
             {
-                return BitConverter.GetBytes(Convert.ToInt64(dataValueTextBox.Text));
+                return BitConverter.GetBytes(Convert.ToInt64(value));
             }
             catch
             {
@@ -282,11 +216,11 @@ namespace Memory_Scanner.Forms
                 return new byte[0];
             }
         }
-        private byte[] GetFloatBytes()
+        private byte[] GetFloatBytes(string value)
         {
             try
             {
-                return BitConverter.GetBytes(Convert.ToSingle(dataValueTextBox.Text));
+                return BitConverter.GetBytes(Convert.ToSingle(value));
             }
             catch
             {
@@ -294,7 +228,7 @@ namespace Memory_Scanner.Forms
                 return new byte[0];
             }
         }
-        private byte[] GetDoubleBytes()
+        private byte[] GetDoubleBytes(string value)
         {
             try
             {
@@ -307,26 +241,26 @@ namespace Memory_Scanner.Forms
             }
         }
 
-        private byte[] GetSearchBoxInput()
+        private byte[] GetInputBytes(string value)
         {
             Byte[] scanValue;
 
             switch (dataTypeComboBox.SelectedIndex)
             {
                 case 0:
-                    scanValue = GetInt16Bytes();
+                    scanValue = GetInt16Bytes(value);
                     break;
                 case 1:
-                    scanValue = GetInt32Bytes();
+                    scanValue = GetInt32Bytes(value);
                     break;
                 case 2:
-                    scanValue = GetInt64Bytes();
+                    scanValue = GetInt64Bytes(value);
                     break;
                 case 3:
-                    scanValue = GetFloatBytes();
+                    scanValue = GetFloatBytes(value);
                     break;
                 case 4:
-                    scanValue = GetDoubleBytes();
+                    scanValue = GetDoubleBytes(value);
                     break;
                 default:
                     MessageBox.Show("An unknown error occurred.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
