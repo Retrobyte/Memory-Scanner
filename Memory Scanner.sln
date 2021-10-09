@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memory Scanner", "Memory Scanner\Memory Scanner.csproj", "{532820FB-0816-44C5-8A16-A2E2825AFA9A}"
 EndProject
 Global
@@ -9,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{532820FB-0816-44C5-8A16-A2E2825AFA9A}.Debug|Any CPU.ActiveCfg = Release|Any CPU
-		{532820FB-0816-44C5-8A16-A2E2825AFA9A}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{532820FB-0816-44C5-8A16-A2E2825AFA9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{532820FB-0816-44C5-8A16-A2E2825AFA9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{532820FB-0816-44C5-8A16-A2E2825AFA9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{532820FB-0816-44C5-8A16-A2E2825AFA9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {99F7EAD5-C5F4-4B6A-9896-3D9438C937DA}
 	EndGlobalSection
 EndGlobal

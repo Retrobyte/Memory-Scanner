@@ -313,6 +313,8 @@ namespace Memory_Scanner.Forms
 
         private void progressUpdate(int amount)
         {
+            if (amount > 100)
+                return;
             searchProgressBar.Value = amount;
         }
 
@@ -354,6 +356,45 @@ namespace Memory_Scanner.Forms
             }
 
             return string.Empty;
+        }
+
+        private void btn_min_Click(object sender, EventArgs e)
+        {
+            byte[] scanValue;
+            scanValue = BitConverter.GetBytes(Convert.ToSingle(1000));
+            _ms.firstScan(scanValue);
+        }
+
+        private void btn_max_Click(object sender, EventArgs e)
+        {
+            byte[] scanValue;
+            scanValue = BitConverter.GetBytes(Convert.ToSingle(2250));
+            _ms.nextScan(scanValue);
+        }
+
+        private void btn_changeCamera_Click(object sender, EventArgs e)
+        {
+            string valueCamera = txt_valueCamera.Text ?? "3000";
+            SearchResult sr = _ms.Results[1];
+            byte[] value = BitConverter.GetBytes(Convert.ToSingle(valueCamera));
+            _ms.writeMemory(sr.Address, value);
+            
+        }
+
+        private void btn_getProcessLOL_Click(object sender, EventArgs e)
+        {
+            foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+            {
+                if (p.ProcessName == "League of Legends")
+                {
+                    _currentId = p.Id;
+                    selectedProcessValueLabel.Text = p.ProcessName;
+
+                    _ms.openProcess(_currentId);
+                    firstScanButton.Enabled = true;
+                }
+                    //processListView.Items.Add(new ListViewItem(new string[] { p.ProcessName, p.Id.ToString() }) { Name = p.Id.ToString() });
+            }
         }
     }
 }

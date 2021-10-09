@@ -44,6 +44,14 @@
             this.processGroupBox = new System.Windows.Forms.GroupBox();
             this.selectedProcessValueLabel = new System.Windows.Forms.Label();
             this.selectedProcessNameLabel = new System.Windows.Forms.Label();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btn_min = new System.Windows.Forms.Button();
+            this.btn_max = new System.Windows.Forms.Button();
+            this.btn_changeCamera = new System.Windows.Forms.Button();
+            this.btn_getProcessLOL = new System.Windows.Forms.Button();
+            this.txt_valueCamera = new System.Windows.Forms.TextBox();
             this.resultsListView = new Memory_Scanner.Controls.AeroListView();
             this.addressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.valueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -51,6 +59,9 @@
             this.resultsGroupBox.SuspendLayout();
             this.resultsMenuStrip.SuspendLayout();
             this.processGroupBox.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // selectProcessButton
@@ -72,7 +83,7 @@
             this.searchGroupBox.Controls.Add(this.dataValueLabel);
             this.searchGroupBox.Controls.Add(this.dataTypeComboBox);
             this.searchGroupBox.Controls.Add(this.dataTypeLabel);
-            this.searchGroupBox.Location = new System.Drawing.Point(12, 60);
+            this.searchGroupBox.Location = new System.Drawing.Point(6, 54);
             this.searchGroupBox.Name = "searchGroupBox";
             this.searchGroupBox.Size = new System.Drawing.Size(360, 105);
             this.searchGroupBox.TabIndex = 1;
@@ -121,7 +132,7 @@
             this.dataValueLabel.AutoSize = true;
             this.dataValueLabel.Location = new System.Drawing.Point(6, 51);
             this.dataValueLabel.Name = "dataValueLabel";
-            this.dataValueLabel.Size = new System.Drawing.Size(66, 13);
+            this.dataValueLabel.Size = new System.Drawing.Size(65, 13);
             this.dataValueLabel.TabIndex = 2;
             this.dataValueLabel.Text = "Data Value:";
             // 
@@ -152,7 +163,7 @@
             // resultsGroupBox
             // 
             this.resultsGroupBox.Controls.Add(this.resultsListView);
-            this.resultsGroupBox.Location = new System.Drawing.Point(12, 171);
+            this.resultsGroupBox.Location = new System.Drawing.Point(6, 165);
             this.resultsGroupBox.Name = "resultsGroupBox";
             this.resultsGroupBox.Size = new System.Drawing.Size(360, 150);
             this.resultsGroupBox.TabIndex = 2;
@@ -164,13 +175,13 @@
             this.resultsMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editValueToolStripMenuItem});
             this.resultsMenuStrip.Name = "resultsMenuStrip";
-            this.resultsMenuStrip.Size = new System.Drawing.Size(127, 26);
+            this.resultsMenuStrip.Size = new System.Drawing.Size(126, 26);
             this.resultsMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.resultsMenuStrip_Opening);
             // 
             // editValueToolStripMenuItem
             // 
             this.editValueToolStripMenuItem.Name = "editValueToolStripMenuItem";
-            this.editValueToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.editValueToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.editValueToolStripMenuItem.Text = "Edit Value";
             this.editValueToolStripMenuItem.Click += new System.EventHandler(this.editValueToolStripMenuItem_Click);
             // 
@@ -179,7 +190,7 @@
             this.processGroupBox.Controls.Add(this.selectedProcessValueLabel);
             this.processGroupBox.Controls.Add(this.selectedProcessNameLabel);
             this.processGroupBox.Controls.Add(this.selectProcessButton);
-            this.processGroupBox.Location = new System.Drawing.Point(12, 12);
+            this.processGroupBox.Location = new System.Drawing.Point(6, 6);
             this.processGroupBox.Name = "processGroupBox";
             this.processGroupBox.Size = new System.Drawing.Size(360, 42);
             this.processGroupBox.TabIndex = 0;
@@ -204,6 +215,92 @@
             this.selectedProcessNameLabel.TabIndex = 0;
             this.selectedProcessNameLabel.Text = "Selected Process:";
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(449, 370);
+            this.tabControl1.TabIndex = 3;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.processGroupBox);
+            this.tabPage1.Controls.Add(this.searchGroupBox);
+            this.tabPage1.Controls.Add(this.resultsGroupBox);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(441, 344);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Default";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.txt_valueCamera);
+            this.tabPage2.Controls.Add(this.btn_getProcessLOL);
+            this.tabPage2.Controls.Add(this.btn_changeCamera);
+            this.tabPage2.Controls.Add(this.btn_max);
+            this.tabPage2.Controls.Add(this.btn_min);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(441, 344);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "LOL";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btn_min
+            // 
+            this.btn_min.Location = new System.Drawing.Point(6, 33);
+            this.btn_min.Name = "btn_min";
+            this.btn_min.Size = new System.Drawing.Size(75, 23);
+            this.btn_min.TabIndex = 0;
+            this.btn_min.Text = "Min";
+            this.btn_min.UseVisualStyleBackColor = true;
+            this.btn_min.Click += new System.EventHandler(this.btn_min_Click);
+            // 
+            // btn_max
+            // 
+            this.btn_max.Location = new System.Drawing.Point(6, 62);
+            this.btn_max.Name = "btn_max";
+            this.btn_max.Size = new System.Drawing.Size(75, 23);
+            this.btn_max.TabIndex = 1;
+            this.btn_max.Text = "Max";
+            this.btn_max.UseVisualStyleBackColor = true;
+            this.btn_max.Click += new System.EventHandler(this.btn_max_Click);
+            // 
+            // btn_changeCamera
+            // 
+            this.btn_changeCamera.Location = new System.Drawing.Point(6, 91);
+            this.btn_changeCamera.Name = "btn_changeCamera";
+            this.btn_changeCamera.Size = new System.Drawing.Size(156, 23);
+            this.btn_changeCamera.TabIndex = 2;
+            this.btn_changeCamera.Text = "Change camera";
+            this.btn_changeCamera.UseVisualStyleBackColor = true;
+            this.btn_changeCamera.Click += new System.EventHandler(this.btn_changeCamera_Click);
+            // 
+            // btn_getProcessLOL
+            // 
+            this.btn_getProcessLOL.Location = new System.Drawing.Point(6, 6);
+            this.btn_getProcessLOL.Name = "btn_getProcessLOL";
+            this.btn_getProcessLOL.Size = new System.Drawing.Size(75, 23);
+            this.btn_getProcessLOL.TabIndex = 3;
+            this.btn_getProcessLOL.Text = "Get Process";
+            this.btn_getProcessLOL.UseVisualStyleBackColor = true;
+            this.btn_getProcessLOL.Click += new System.EventHandler(this.btn_getProcessLOL_Click);
+            // 
+            // txt_valueCamera
+            // 
+            this.txt_valueCamera.Location = new System.Drawing.Point(169, 93);
+            this.txt_valueCamera.Name = "txt_valueCamera";
+            this.txt_valueCamera.Size = new System.Drawing.Size(136, 22);
+            this.txt_valueCamera.TabIndex = 4;
+            this.txt_valueCamera.Text = "3000";
+            // 
             // resultsListView
             // 
             this.resultsListView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -212,6 +309,7 @@
             this.valueHeader});
             this.resultsListView.ContextMenuStrip = this.resultsMenuStrip;
             this.resultsListView.FullRowSelect = true;
+            this.resultsListView.HideSelection = false;
             this.resultsListView.Location = new System.Drawing.Point(6, 21);
             this.resultsListView.Name = "resultsListView";
             this.resultsListView.Size = new System.Drawing.Size(348, 123);
@@ -233,16 +331,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 333);
-            this.Controls.Add(this.processGroupBox);
-            this.Controls.Add(this.resultsGroupBox);
-            this.Controls.Add(this.searchGroupBox);
+            this.ClientSize = new System.Drawing.Size(500, 411);
+            this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Memory Scanner";
+            this.Text = "Hieu Memory Scanner";
             this.Load += new System.EventHandler(this.Main_Load);
             this.searchGroupBox.ResumeLayout(false);
             this.searchGroupBox.PerformLayout();
@@ -250,6 +346,10 @@
             this.resultsMenuStrip.ResumeLayout(false);
             this.processGroupBox.ResumeLayout(false);
             this.processGroupBox.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -274,5 +374,13 @@
         private System.Windows.Forms.ColumnHeader valueHeader;
         private System.Windows.Forms.ContextMenuStrip resultsMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem editValueToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button btn_max;
+        private System.Windows.Forms.Button btn_min;
+        private System.Windows.Forms.Button btn_changeCamera;
+        private System.Windows.Forms.Button btn_getProcessLOL;
+        private System.Windows.Forms.TextBox txt_valueCamera;
     }
 }

@@ -49,5 +49,15 @@ namespace Memory_Scanner.Forms
                 return Convert.ToInt32(processListView.SelectedItems[0].SubItems[1].Text);
             }
         }
+
+        private void btn_FillLol_Click(object sender, EventArgs e)
+        {
+            processListView.Items.Clear();
+            foreach (Process p in Process.GetProcesses())
+            {
+                if(p.ProcessName == "League of Legends")
+                    processListView.Items.Add(new ListViewItem(new string[] { p.ProcessName, p.Id.ToString() }) { Name = p.Id.ToString() });
+            }
+        }
     }
 }
